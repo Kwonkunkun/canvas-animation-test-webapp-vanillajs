@@ -22,7 +22,7 @@ class IntroApp {
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
     this.animatedObjects = animatedObjects;
 
-    //resize 초기에 한번 호출
+    //resize 한번 호출
     this.resize();
 
     //event
@@ -38,9 +38,9 @@ class IntroApp {
     this.canvas.height = this.stageHeight * this.pixelRatio;
     this.ctx.scale(this.pixelRatio, this.pixelRatio);
 
-    //animated object resize
+    //resize 되었으므로 object init 해줘야함
     this.animatedObjects.forEach((animatedObject) => {
-      animatedObject.resize(this.stageWidth, this.stageHeight);
+      animatedObject.init(this.stageWidth, this.stageHeight);
     });
   }
 
@@ -61,14 +61,19 @@ class IntroApp {
 window.onload = () => {
   console.log('window onload');
 
+  /**
+   * di 를 하기위해 생성시에는 더미값을 넣는다.. init 에서 다시 계산해줄거니까..
+   * 흠.. di 때문에 이렇게 했는데, 이게 좋은 방법인지는 모르겠다.
+   */
+
   const snows = [];
   for (let i = 0; i < 40; i++) {
-    snows.push(new Snow());
+    snows.push(new Snow(0, 0));
   }
 
   const meteors = [];
   for (let i = 0; i < 100; i++) {
-    meteors.push(new Meteor());
+    meteors.push(new Meteor(0, 0));
   }
 
   new IntroApp([...meteors]);
