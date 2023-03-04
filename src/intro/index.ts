@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import '@/styles/intro.css';
 import { AnimatedObject } from '@/src/intro/common.interface';
 import { Snow } from '@/src/intro/Snow';
+import { Meteor } from '@/src/intro/Meteor';
 
 class IntroApp {
   canvas: HTMLCanvasElement;
@@ -44,7 +45,9 @@ class IntroApp {
   }
 
   animate() {
-    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    // this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
     //animate object draw
     this.animatedObjects.forEach((animatedObject) => {
@@ -63,5 +66,10 @@ window.onload = () => {
     snows.push(new Snow());
   }
 
-  new IntroApp([...snows]);
+  const meteors = [];
+  for (let i = 0; i < 100; i++) {
+    meteors.push(new Meteor());
+  }
+
+  new IntroApp([...meteors]);
 };
