@@ -1,5 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/intro.css';
+import { AnimatedObject } from '@/src/intro/common.interface';
+import { Snow } from '@/src/intro/Snow';
 
 class IntroApp {
   canvas: HTMLCanvasElement;
@@ -7,8 +9,9 @@ class IntroApp {
   stageWidth: number;
   stageHeight: number;
   pixelRatio: number;
+  animatedObjects: AnimatedObject[] = [];
 
-  constructor() {
+  constructor(animatedObjects: AnimatedObject[] = []) {
     //init
     this.canvas = document.createElement('canvas');
     document.body.appendChild(this.canvas);
@@ -16,25 +19,37 @@ class IntroApp {
     this.stageWidth = document.body.clientWidth;
     this.stageHeight = document.body.clientHeight;
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
+    this.animatedObjects = animatedObjects;
+
+    //resize 초기에 한번 호출
+    this.resize();
 
     //event
     window.addEventListener('resize', this.resize.bind(this));
     window.requestAnimationFrame(this.animate.bind(this));
   }
 
-  //화면 resize시마다 호출되는 함수, canvas 재계산
+  //화면 resize 시마다 호출되는 함수, canvas 재계산
   resize() {
     this.stageWidth = document.body.clientWidth;
     this.stageHeight = document.body.clientHeight;
     this.canvas.width = this.stageWidth * this.pixelRatio;
     this.canvas.height = this.stageHeight * this.pixelRatio;
     this.ctx.scale(this.pixelRatio, this.pixelRatio);
+
+    //animated object resize
+    this.animatedObjects.forEach((animatedObject) => {
+      animatedObject.resize(this.stageWidth, this.stageHeight);
+    });
   }
 
   animate() {
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
 
-    //animate todo
+    //animate object draw
+    this.animatedObjects.forEach((animatedObject) => {
+      animatedObject.draw(this.ctx);
+    });
 
     window.requestAnimationFrame(this.animate.bind(this));
   }
@@ -42,5 +57,11 @@ class IntroApp {
 
 window.onload = () => {
   console.log('window onload');
-  new IntroApp();
+
+  const snows = [];
+  for (let i = 0; i < 40; i++) {
+    snows.push(new Snow());
+  }
+
+  new IntroApp([...snows]);
 };
