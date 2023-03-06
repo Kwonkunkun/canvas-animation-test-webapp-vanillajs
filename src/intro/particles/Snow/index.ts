@@ -1,11 +1,10 @@
-import { Particle } from '@/src/intro/common.interface';
 import { getRandomArbitrary } from '@/utils';
+import { Particle } from '@/src/intro/particles/particles.interface';
 
 /**
- * @description 유성 class
- * @description constructor 가 없는 이유는 init 에서 초기화 해주기 때문에
+ * @description 눈 class
  */
-export class Meteor implements Particle {
+export class Snow implements Particle {
   x!: number;
   y!: number;
   radius!: number;
@@ -23,10 +22,10 @@ export class Meteor implements Particle {
 
   init(stageWidth: number, stageHeight: number): void {
     this.x = getRandomArbitrary(0, stageWidth);
-    this.y = getRandomArbitrary(0, stageHeight / 3);
-    this.radius = 2;
+    this.y = getRandomArbitrary(0, stageHeight / 10);
+    this.radius = getRandomArbitrary(5, 10);
     this.speedX = getRandomArbitrary(-1, 1);
-    this.speedY = getRandomArbitrary(5, 10);
+    this.speedY = getRandomArbitrary(1, 5);
     this.opacity = getRandomArbitrary(0.8, 1);
     this.opacityMinus = getRandomArbitrary(0.001, 0.005);
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
@@ -41,7 +40,7 @@ export class Meteor implements Particle {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    //비가 화면 밖으로 나가던가 opacity 가 0 이하면 다시 init 해줘야함
+    //눈이 화면 밖으로 나가던가 opacity 가 0 이하면 다시 init 해줘야함
     if (this.isDead()) {
       //ratio 에 따라 다르게 넣어주었기 때문에.. 이렇게 해야함
       this.init(
@@ -52,8 +51,8 @@ export class Meteor implements Particle {
 
     this.update();
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = `rgba(100, 255, 255, ${this.opacity})`;
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
     ctx.fill();
     ctx.closePath();
   }

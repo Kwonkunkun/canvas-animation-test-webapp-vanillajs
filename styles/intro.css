@@ -1,5 +1,5 @@
 :root {
-    --bg-color: black;
+    --bg-color: white;
     --intro-controller-bg-color: #404258;
     --intro-controller-item-color: rgb(255, 255, 255);
     --divider-color: rgb(255, 255, 255, 0.7);
@@ -27,7 +27,7 @@ canvas {
 
 .intro-controller {
     background-color: var(--intro-controller-bg-color);
-    padding: 10px;
+    padding: 10px 20px;
     position: absolute;
     top: calc(10% - 50px);
     left: calc(50% - 50px);

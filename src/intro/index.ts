@@ -1,9 +1,14 @@
 import '@/styles/globals.css';
 import '@/styles/intro.css';
-import { AnimatedObject } from '@/src/intro/common.interface';
-import { Snow } from '@/src/intro/Snow';
-import { Meteor } from '@/src/intro/Meteor';
+import { Snow } from '@/src/intro/particles/Snow';
+import { Meteor } from '@/src/intro/particles/Meteor';
+import { AnimatedObject } from '@/src/intro/particles/particles.interface';
+import { GradationBall } from '@/src/intro/particles/GradationBall';
 
+/**
+ * TODO: canvas 를 여러개로 두는 형태로 하자
+ * canvas 마다 크게보기 기능을 넣고 크게 볼때 animation 이 동작하게 하자
+ */
 class IntroApp {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -46,7 +51,7 @@ class IntroApp {
 
   animate() {
     // this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 1)';
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
     //animate object draw
@@ -61,11 +66,6 @@ class IntroApp {
 window.onload = () => {
   console.log('window onload');
 
-  /**
-   * di 를 하기위해 생성시에는 더미값을 넣는다.. init 에서 다시 계산해줄거니까..
-   * 흠.. di 때문에 이렇게 했는데, 이게 좋은 방법인지는 모르겠다.
-   */
-
   const snows = [];
   for (let i = 0; i < 40; i++) {
     snows.push(new Snow(0, 0));
@@ -76,5 +76,10 @@ window.onload = () => {
     meteors.push(new Meteor(0, 0));
   }
 
-  new IntroApp([...meteors]);
+  const gradationBalls = [];
+  for (let i = 0; i < 30; i++) {
+    gradationBalls.push(new GradationBall(0, 0));
+  }
+
+  new IntroApp([...gradationBalls]);
 };
