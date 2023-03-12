@@ -11,8 +11,6 @@ export class Meteor implements Particle {
   radius!: number;
   speedX!: number;
   speedY!: number;
-  opacity!: number;
-  opacityMinus!: number;
   pixelRatio!: number;
   stageWidth!: number;
   stageHeight!: number;
@@ -22,13 +20,11 @@ export class Meteor implements Particle {
   }
 
   resize(stageWidth: number, stageHeight: number): void {
-    this.x = getRandomArbitrary(0, stageWidth);
-    this.y = getRandomArbitrary(0, stageHeight / 3);
-    this.radius = 2;
-    this.speedX = getRandomArbitrary(-1, 1);
-    this.speedY = getRandomArbitrary(5, 10);
-    this.opacity = getRandomArbitrary(0.8, 1);
-    this.opacityMinus = getRandomArbitrary(0.001, 0.005);
+    this.x = getRandomArbitrary(stageWidth / 2, stageWidth);
+    this.y = getRandomArbitrary(0, stageHeight / 2);
+    this.radius = 3;
+    this.speedX = getRandomArbitrary(-5, -3);
+    this.speedY = getRandomArbitrary(2, 3);
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
     this.stageWidth = stageWidth;
     this.stageHeight = stageHeight;
@@ -37,7 +33,6 @@ export class Meteor implements Particle {
   update(): void {
     this.x += this.speedX;
     this.y += this.speedY;
-    this.opacity -= this.opacityMinus;
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
@@ -54,7 +49,7 @@ export class Meteor implements Particle {
 
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = `rgba(100, 255, 255, ${this.opacity})`;
+    ctx.fillStyle = `rgba(100, 255, 255, 1)`;
     ctx.fill();
     ctx.closePath();
   }
@@ -65,8 +60,7 @@ export class Meteor implements Particle {
       this.x < 0 ||
       this.x > this.stageWidth ||
       this.y < 0 ||
-      this.y > this.stageHeight ||
-      this.opacity <= 0
+      this.y > this.stageHeight
     );
   }
 

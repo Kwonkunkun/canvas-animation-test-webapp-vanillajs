@@ -8,6 +8,7 @@ export class CanvasImpl implements Canvas {
   stageWidth: number;
   stageHeight: number;
   animatedObjects: AnimatedObject[] = [];
+  fillColor = '#000';
 
   constructor(
     id: string,
@@ -25,7 +26,7 @@ export class CanvasImpl implements Canvas {
   }
 
   animate(): void {
-    this.ctx.fillStyle = '#000';
+    this.ctx.fillStyle = this.fillColor;
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
     this.animatedObjects.forEach((animatedObject) => {
@@ -55,5 +56,9 @@ export class CanvasImpl implements Canvas {
     this.animatedObjects.forEach((animatedObject) => {
       animatedObject.resume();
     });
+  }
+
+  setFillColor(fillColor: string): void {
+    this.fillColor = fillColor;
   }
 }

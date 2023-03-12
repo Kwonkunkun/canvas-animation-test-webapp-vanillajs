@@ -24,6 +24,8 @@ export class CanvasFactory {
   createMeteorCanvas(numOfParticle: number): Canvas {
     const meteorFactory = new MeteorFactory();
     const meteors = meteorFactory.createParticles(numOfParticle);
-    return new CanvasImpl('meteor', 0, 0, meteors);
+    const canvas = new CanvasImpl('meteor', 0, 0, meteors);
+    canvas.setFillColor('rgba(0, 0, 0, 0.1)');
+    return canvas;
   }
 }

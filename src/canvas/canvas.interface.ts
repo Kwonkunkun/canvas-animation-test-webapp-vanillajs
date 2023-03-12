@@ -9,10 +9,12 @@ export interface Canvas {
   stageHeight: number;
   animatedObjects: AnimatedObject[];
   aspectRatio: number;
+  fillColor: string;
   animate(): void;
   resize(stageWidth: number, stageHeight: number): void;
   pause(): void;
   resume(): void;
+  setFillColor(fillColor: string): void;
 }
 
 /**
