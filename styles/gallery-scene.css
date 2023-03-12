@@ -1,0 +1,28 @@
+:root {
+    --bg-color: rgb(20, 20, 20);
+    --card-color: rgb(23, 23, 23);
+}
+
+body {
+    background: var(--bg-color);
+    height: 100vh;
+    width: 100vw;
+}
+
+.gallery {
+    display: flex;
+    gap: 4vmin;
+    position:  absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.gallery > .gallery-item {
+    width: 40vmin;
+    height: 56vmin;
+    object-fit: cover;
+    object-position: 50% 100%;
+    overflow: hidden;
+    cursor: pointer;
+}

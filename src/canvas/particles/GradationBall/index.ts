@@ -1,5 +1,5 @@
-import { Particle } from '@/src/intro/particles/particles.interface';
 import { getRandomArbitrary } from '@/utils';
+import { Particle } from '@/src/canvas/particles/particles.interface';
 
 /**
  * @description 그라데이션 공 class
@@ -18,6 +18,7 @@ export class GradationBall implements Particle {
   plus: boolean = true;
 
   //interface property
+  active: boolean = true;
   radius: number = 0;
   speedX: number = 0;
   speedY: number = 0;
@@ -27,10 +28,10 @@ export class GradationBall implements Particle {
   y: number = 0;
 
   constructor(stageWidth: number, stageHeight: number) {
-    this.init(stageWidth, stageHeight);
+    this.resize(stageWidth, stageHeight);
   }
 
-  init(stageWidth: number, stageHeight: number): void {
+  resize(stageWidth: number, stageHeight: number): void {
     this.x = stageWidth / 2;
     this.y = stageHeight / 2;
     this.radius = getRandomArbitrary(this.MIN_RADIUS, this.MAX_RADIUS);
@@ -62,7 +63,8 @@ export class GradationBall implements Particle {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    this.update();
+    if (this.active) this.update();
+
     ctx.beginPath();
     const g = ctx.createRadialGradient(
       this.x,
@@ -84,5 +86,13 @@ export class GradationBall implements Particle {
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
+  }
+
+  pause(): void {
+    this.active = false;
+  }
+
+  resume(): void {
+    this.active = true;
   }
 }

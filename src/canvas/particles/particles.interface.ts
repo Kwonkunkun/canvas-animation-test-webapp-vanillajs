@@ -1,16 +1,10 @@
-/**
- * @description animated object interface
- */
-export interface AnimatedObject {
-  init(stageWidth: number, stageHeight: number): void;
-  update(): void;
-  draw(ctx: CanvasRenderingContext2D): void;
-}
+import { AnimatedObject } from '@/src/canvas/canvas.interface';
 
 /**
  * @description particle interface
  */
 export interface Particle extends AnimatedObject {
+  active: boolean;
   x: number;
   y: number;
   radius: number;

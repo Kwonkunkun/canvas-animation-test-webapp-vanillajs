@@ -1,10 +1,11 @@
 import { getRandomArbitrary } from '@/utils';
-import { Particle } from '@/src/intro/particles/particles.interface';
+import { Particle } from '@/src/canvas/particles/particles.interface';
 
 /**
- * @description 눈 class
+ * @description 유성 class
  */
-export class Snow implements Particle {
+export class Meteor implements Particle {
+  active: boolean = true;
   x!: number;
   y!: number;
   radius!: number;
@@ -17,15 +18,15 @@ export class Snow implements Particle {
   stageHeight!: number;
 
   constructor(stageWidth: number, stageHeight: number) {
-    this.init(stageWidth, stageHeight);
+    this.resize(stageWidth, stageHeight);
   }
 
-  init(stageWidth: number, stageHeight: number): void {
+  resize(stageWidth: number, stageHeight: number): void {
     this.x = getRandomArbitrary(0, stageWidth);
-    this.y = getRandomArbitrary(0, stageHeight / 10);
-    this.radius = getRandomArbitrary(5, 10);
+    this.y = getRandomArbitrary(0, stageHeight / 3);
+    this.radius = 2;
     this.speedX = getRandomArbitrary(-1, 1);
-    this.speedY = getRandomArbitrary(1, 5);
+    this.speedY = getRandomArbitrary(5, 10);
     this.opacity = getRandomArbitrary(0.8, 1);
     this.opacityMinus = getRandomArbitrary(0.001, 0.005);
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
@@ -40,19 +41,20 @@ export class Snow implements Particle {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    //눈이 화면 밖으로 나가던가 opacity 가 0 이하면 다시 init 해줘야함
+    //비가 화면 밖으로 나가던가 opacity 가 0 이하면 다시 init 해줘야함
     if (this.isDead()) {
       //ratio 에 따라 다르게 넣어주었기 때문에.. 이렇게 해야함
-      this.init(
+      this.resize(
         ctx.canvas.width / this.pixelRatio,
         ctx.canvas.height / this.pixelRatio,
       );
     }
 
-    this.update();
+    if (this.active) this.update();
+
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = `rgba(100, 255, 255, ${this.opacity})`;
     ctx.fill();
     ctx.closePath();
   }
@@ -66,5 +68,13 @@ export class Snow implements Particle {
       this.y > this.stageHeight ||
       this.opacity <= 0
     );
+  }
+
+  pause(): void {
+    this.active = false;
+  }
+
+  resume(): void {
+    this.active = true;
   }
 }
