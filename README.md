@@ -1,1 +1,1 @@
-# portfolio-webapp-vanillajs
+# canvas-animation-test-webapp-vanillajs
